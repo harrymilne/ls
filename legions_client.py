@@ -180,9 +180,11 @@ class LegionsClient:
 			dedicated = bool(int(status[0]))
 			password = bool(int(status[1]))
 
+			raw_players = data[offset:].decode("utf-8", errors="replace").splitlines()
 			players = []
-			for player in data[offset:].splitlines():
-				players.append(player.decode()[2:-2])
+			for player in raw_players:
+				players.append(player[2:-2])
+				#print(players)
 
 			return {"mission":mission_name, "gamemode":mission_type, "players":players, "player_count":player_count, "max_players":max_players, "passworded":password}
 
@@ -196,10 +198,10 @@ class LegionsClient:
 			curr_ver, min_ver, ver_num, name_len = Struct("<IIIB").unpack_from(data, offset = offset)
 			offset += 13
 
-			name = Struct("<{0}s".format(name_len)).unpack_from(data, offset = offset)[0].decode()
+			name = Struct("<{0}s".format(name_len)).unpack_from(data, offset = offset)[0].decode("utf-8")
 			offset += name_len
 
-			return str(name)
+			return name
 
 	def query_all(self):
 		game_info_packet = self.pack_single(self.game_info_req)
@@ -240,7 +242,6 @@ if __name__ == "__main__":
 				l_client.query_all()
 				webpage.write_HTML(l_client.server_info)
 				print("Sleeping for 60 seconds...")
-				print(l_client.server_info)
 				time.sleep(60)
 			except:
 				log.write(str(sys.exc_info()), "[FATAL]")

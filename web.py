@@ -7,7 +7,7 @@ class Webpage:
 
 	def write_HTML(self, server_data):
 
-		with open(self.prefs["index"], "r") as htmlFile:
+		with open(self.prefs["index"], mode="r", encoding="utf-8") as htmlFile:
 			htmlLines = htmlFile.readlines()
 
 		html_start = htmlLines.index("<!--SERVERSTART-->\n")
@@ -81,9 +81,12 @@ class Webpage:
 
 
 		html = htmlLines[:html_start+1] + ['\n'] + new_HTML + ['\n'] +htmlLines[html_end:]
+		encoded_html = []
+		for line in html:
+			encoded_html.append(line.encode("utf-8"))
 
 		self.write_JS(serverCount, self.prefs)
-		with open(self.prefs["index"], "w") as htmlFile:
+		with open(self.prefs["index"], mode="w", encoding="utf-8") as htmlFile:
 			htmlFile.writelines(html)
 		print("HTML written.")
 
