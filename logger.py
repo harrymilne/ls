@@ -12,16 +12,16 @@ class Logger:
 
 	def write(self, msg, lvl):
 		time_now = time.strftime("[%d/%m %H:%m] ", time.localtime())
-		formatted_msg = time_now + lvl + msg + "\n" 
+		formatted_msg = time_now + lvl + msg + "\n"
 
-		with open(self.log_file, "r") as log:
+		with open(self.log_file, mode="r", encoding="utf-8") as log:
 			history = log.readlines()
 
 		history.append(formatted_msg)
 
-		with open(self.log_file, "w") as log:
+		with open(self.log_file, mode="w", encoding="utf-8") as log:
 			log.writelines(history)
 
 if __name__ == "__main__":
 	logger = Logger("error.log")
-	logger.error("UH OH SHIT FUCKED UP")
+	logger.write("UH OH SHIT FUCKED UP", "lvl")

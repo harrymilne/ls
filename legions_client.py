@@ -82,7 +82,7 @@ class LegionsClient:
 			reqSock.connect(self.master_socket)
 			reqSock.send(packet)
 			data.append(reqSock.recv(4096))
-			print("MSG: ", binascii.hexlify(data[-1]))
+			print("MSG: {0}", binascii.hexlify(data[-1]))
 			packetCount = self.reply_struct.unpack_from(data[-1])[-2]
 			if packetCount-1 > 0:
 				for i in range(packetCount-1):
@@ -91,17 +91,21 @@ class LegionsClient:
 			return data
 
 		except socket.timeout:
-			lvl = "[MSG] "
-			message = "Master server timed out."
-			log.write(message, lvl)
+			message = "ERR: Master server timed out, will retry..."
 			print(message)
+			time.sleep(1)
 			return False
 		except socket.gaierror:
-			lvl = "[MSG] "
-			message = "DNS Fail."
-			log.write(message, lvl)
+			message = "ERR: Master server DNS fail, will retry..."
 			print(message)
+			time.sleep(1)
 			return False
+		except ConnectionRefusedError:
+			message = "ERR: Master server refused the connection, will retry..."
+			print(message)
+			time.sleep(1)
+
+
 
 	def parse_master(self, data):
 		offset = 10
@@ -130,18 +134,20 @@ class LegionsClient:
 		session = 0
 		return self.info_struct_req.pack(header, flags, session)
 
-	def query_single(self, host, packet):
+	def send_single(self, host, packet):
 		data = None
 		try:
 			reqSock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 			reqSock.connect(host)
 			reqSock.send(packet)
-			reqSock.settimeout(5)
+			reqSock.settimeout(4)
 			data = reqSock.recv(4096)
 		except socket.timeout:
 			print("MSG: {0} timed out...".format(host))
 		except socket.gaierror:
 			print("MSG: {0} DNS error...".format(host))
+		except ConnectionRefusedError:
+			print("MSG: {0} refused the connection...".format(host))
 		reqSock.close()
 		return data
 
@@ -207,17 +213,17 @@ class LegionsClient:
 		game_info_packet = self.pack_single(self.game_info_req)
 		game_ping_packet = self.pack_single(self.game_ping_req)
 		for server in self.ip_list:
-			print("Querying {0}...".format(server))
-			game_ping_data = self.query_single(server, game_ping_packet)
-			game_info_data = self.query_single(server, game_info_packet)
+			print("MSG: Querying {0}...".format(server))
+			game_ping_data = self.send_single(server, game_ping_packet)
+			game_info_data = self.send_single(server, game_info_packet)
 			if game_info_data and game_ping_data:
-				print("Success, info and ping recieved.")
+				print("MSG: Success, info and ping recieved.")
 
 				server_name = self.parse_single(game_ping_data)
 				server_dict = self.parse_single(game_info_data)
 				server_dict["socket"] = server
 				self.server_info[server_name] = server_dict
-				print("{0} sucessfully parsed.".format(server_name))
+				print("MSG: {0} sucessfully parsed.".format(server_name))
 
 
 
@@ -241,11 +247,14 @@ if __name__ == "__main__":
 				l_client.query_master()
 				l_client.query_all()
 				webpage.write_HTML(l_client.server_info)
-				print("Sleeping for 60 seconds...")
+				print("MSG: Sleeping for 60 seconds...")
 				time.sleep(60)
 			except:
-				log.write(str(sys.exc_info()), "[FATAL]")
-				print("error")
+				error_text = str(sys.exc_info())
+				log.write(error_text, "[FATAL]")
+				print("ERR: {0} occurred.".format(error_text))
+				print("ERR: Error has been logged and the script will continue in 5 seconds...")
+				time.sleep(5)
 	else:
 		print("Prefs not found!")
 

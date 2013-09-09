@@ -88,7 +88,7 @@ class Webpage:
 		self.write_JS(serverCount, self.prefs)
 		with open(self.prefs["index"], mode="w", encoding="utf-8") as htmlFile:
 			htmlFile.writelines(html)
-		print("HTML written.")
+		print("MSG: HTML written.")
 
 	def write_JS(self, serverCount, prefs):
 		js = ""
@@ -101,4 +101,4 @@ class Webpage:
 		js += footer
 		with open(prefs["js"], 'w') as jsfile:
 			jsfile.write(js)
-		print("JS written.")
+		print("MSG: JS written.")
