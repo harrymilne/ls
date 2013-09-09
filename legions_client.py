@@ -75,19 +75,20 @@ class LegionsClient:
 	def send_master(self, packet):
 		data = []
 
-		reqSock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
-		reqSock.settimeout(5)
+		req_sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+		req_sock.settimeout(5)
 
 		try:
-			reqSock.connect(self.master_socket)
-			reqSock.send(packet)
-			data.append(reqSock.recv(4096))
-			print("MSG: {0}", binascii.hexlify(data[-1]))
-			packetCount = self.reply_struct.unpack_from(data[-1])[-2]
-			if packetCount-1 > 0:
-				for i in range(packetCount-1):
-					data.append(reqSock.recv(4096))
+			req_sock.connect(self.master_socket)
+			req_sock.send(packet)
+			data.append(req_sock.recv(4096))
+			print("MSG: {0}".format(binascii.hexlify(data[-1])))
+			packet_count = self.reply_struct.unpack_from(data[-1])[-2]
+			if packet_count-1 > 0:
+				for i in range(packet_count-1):
+					data.append(req_sock.recv(4096))
 					print("MSG: ", binascii.hexlify(data[-1]))
+			req_sock.close()
 			return data
 
 		except socket.timeout:
@@ -104,6 +105,7 @@ class LegionsClient:
 			message = "ERR: Master server refused the connection, will retry..."
 			print(message)
 			time.sleep(1)
+
 
 
 
@@ -137,18 +139,18 @@ class LegionsClient:
 	def send_single(self, host, packet):
 		data = None
 		try:
-			reqSock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
-			reqSock.connect(host)
-			reqSock.send(packet)
-			reqSock.settimeout(4)
-			data = reqSock.recv(4096)
+			req_sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+			req_sock.connect(host)
+			req_sock.send(packet)
+			req_sock.settimeout(4)
+			data = req_sock.recv(4096)
 		except socket.timeout:
 			print("MSG: {0} timed out...".format(host))
 		except socket.gaierror:
 			print("MSG: {0} DNS error...".format(host))
 		except ConnectionRefusedError:
 			print("MSG: {0} refused the connection...".format(host))
-		reqSock.close()
+		req_sock.close()
 		return data
 
 	def parse_single(self, data):
@@ -256,5 +258,6 @@ if __name__ == "__main__":
 				print("ERR: Error has been logged and the script will continue in 5 seconds...")
 				time.sleep(5)
 	else:
-		print("Prefs not found!")
+		print("ERR: Prefs not found!")
+		print("MSG: Script cannot run without a prefs.ini, stopping...")
 

@@ -17,7 +17,7 @@ class Prefs:
 			self.raw_config = config_file.read().splitlines()
 		for line in self.raw_config:
 			equals_index = line.index("=")
-			self.prefs[line[:equals_index]] = line[equals_index+1:]
+			self.prefs[line[:equals_index]] = line[equals_index+1:].strip()
 		return self.prefs
 
 
