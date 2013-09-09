@@ -24,5 +24,11 @@ However, if you do want to run this yourself, here's how to do it.
   That should be it!
   
 
-
+###To Do
+	[x] Legions URI implementation
+	[x] Player name box
+	[x] Cleaner rewrite with better packet decoding
+	[ ] Better HTML implementation (Jinja?)
+	[ ] Better logger?
+	
 
