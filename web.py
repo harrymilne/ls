@@ -5,6 +5,10 @@ class Webpage:
 	def __init__(self, prefs):
 		self.prefs = prefs
 
+	def write(self, server_data):
+		self.write_JS(len(server_data), self.prefs)
+		self.write_HTML(server_data)
+
 	def write_HTML(self, server_data):
 
 		with open(self.prefs["index"], mode="r", encoding="utf-8") as htmlFile:
@@ -85,7 +89,6 @@ class Webpage:
 		for line in html:
 			encoded_html.append(line.encode("utf-8"))
 
-		self.write_JS(serverCount, self.prefs)
 		with open(self.prefs["index"], mode="w", encoding="utf-8") as htmlFile:
 			htmlFile.writelines(html)
 		print("MSG: HTML written.")

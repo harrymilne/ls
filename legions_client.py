@@ -2,6 +2,7 @@ from struct import *
 from logger import Logger
 from prefs import Prefs
 from web import Webpage
+from stats import Stats
 import socket
 import binascii
 import time
@@ -106,9 +107,6 @@ class LegionsClient:
 			print(message)
 			time.sleep(1)
 
-
-
-
 	def parse_master(self, data):
 		offset = 10
 		server_data = []
@@ -192,7 +190,6 @@ class LegionsClient:
 			players = []
 			for player in raw_players:
 				players.append(player[2:-2])
-				#print(players)
 
 			return {"mission":mission_name, "gamemode":mission_type, "players":players, "player_count":player_count, "max_players":max_players, "passworded":password}
 
@@ -226,20 +223,24 @@ class LegionsClient:
 				server_dict["socket"] = server
 				self.server_info[server_name] = server_dict
 				print("MSG: {0} sucessfully parsed.".format(server_name))
+				if len(server_dict["players"]):
+					print("MSG: Players: "+", ".join(server_dict["players"]))
 
 
 
 
 if __name__ == "__main__":
+	error_count = 0
 	##retrieve prefs.ini as dict
 	pref_obj = Prefs("prefs.ini")
 	if pref_obj.check_prefs():
 		pref_dict = pref_obj.open_prefs()
 		
-
-
 		##setup error logger for __main__
 		log = Logger(pref_dict["errors"])
+
+		if "stats" in pref_dict:
+			stats = Stats(pref_dict)
 
 		##setup webpage editor object
 		webpage = Webpage(pref_dict)
@@ -248,14 +249,22 @@ if __name__ == "__main__":
 				l_client = LegionsClient()
 				l_client.query_master()
 				l_client.query_all()
-				webpage.write_HTML(l_client.server_info)
+				server_data = l_client.server_info
+				webpage.write(server_data)
+				if "stats" in pref_dict:
+					stats.log(server_data)
 				print("MSG: Sleeping for 60 seconds...")
 				time.sleep(60)
 			except:
+				error_count += 1
 				error_text = str(sys.exc_info())
 				log.write(error_text, "[FATAL]")
 				print("ERR: {0} occurred.".format(error_text))
-				print("ERR: Error has been logged and the script will continue in 5 seconds...")
+				if error_count < 5:
+					print("ERR: Error has been logged and the script will continue in 5 seconds...")
+				else:
+					print("ERR: Continuous error, program cannot recover...")
+					exit()
 				time.sleep(5)
 	else:
 		print("ERR: Prefs not found!")
