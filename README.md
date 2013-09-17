@@ -1,5 +1,5 @@
 #ls
-=
+
 
 This script is built to run with a Torque Master Server, which very little games use. It's been made for a game called Legions: Overdrive which just needed a better way to view servers without launching the game itself.
 However, if you do want to run this yourself, here's how to do it.
