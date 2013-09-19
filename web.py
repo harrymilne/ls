@@ -36,9 +36,10 @@ class Webpage:
 			socket = server_data[server]["socket"][0] +":"+ str(server_data[server]["socket"][1])
 
 			if process_online[server]["passworded"]:
-				pwd = '<span id="icon"></span>  '
+				pwd_html = '<span id="icon"></span>'
+				pwd_uri = '*'
 			else:
-				pwd = ''
+				pwd_html = pwd_uri = ''
 			
 
 			serverHeader = '<div class="button" id="server{0}">'.format(serverCount)
@@ -49,12 +50,12 @@ class Webpage:
 						<div id="box-mission">{3}</div>
 						<div id="box-end">{4}</div>
 					</div>
-			""".format(server, process_online[server]["player_count"], process_online[server]["max_players"], process_online[server]["mission"], process_online[server]["gamemode"], pwd)
+			""".format(server, process_online[server]["player_count"], process_online[server]["max_players"], process_online[server]["mission"], process_online[server]["gamemode"], pwd_html)
 
 			playerLine = '\t\t\t\t<div class = "playerlist" id = "server{0}list">'.format(serverCount)
 			for player in sorted(process_online[server]["players"]):
 				playerLine += '\n\t\t\t\t\t<div id="box-name">{0}</div>'.format(player)
-			playerLine += '\n\t \t\t\t\t<div id="box-join"><a href = "legions://{0}{1}">Join Server</a></div>'.format(socket, pwd)
+			playerLine += '\n\t \t\t\t\t<div id="box-join"><a href = "legions://{0}{1}">Join Server</a></div>'.format(socket, pwd_uri)
 			playerLine += '\n\t\t\t\t</div>'
 
 			serverFooter = "</div>\n"
@@ -67,18 +68,19 @@ class Webpage:
 			socket = server_data[server]["socket"][0] +":"+ str(server_data[server]["socket"][1])
 
 			if process_empty[server]["passworded"]:
-				pwd = '<span id="icon"></span>  '
+				pwd_html = '<span id="icon"></span>'
+				pwd_uri = '*'
 			else:
-				pwd = ''
+				pwd_html = pwd_uri = ''
 
 			infoLine = """
 					<div class="server-box" id="server-empty-box">
-						<div id="box-title"><a href = "legions://{5}{6}">{0}</a></div>
+						<div id="box-title"><a href = "legions://{5}{7}">{0}</a></div>
 						<div id="box-middle">{6}{1}/{2}</div>
 						<div id="box-mission">{3}</div>
 						<div id="box-end">{4}</div>
 					</div>
-			""".format(server, process_empty[server]["player_count"], process_empty[server]["max_players"], process_empty[server]["mission"], process_empty[server]["gamemode"], socket, pwd)
+			""".format(server, process_empty[server]["player_count"], process_empty[server]["max_players"], process_empty[server]["mission"], process_empty[server]["gamemode"], socket, pwd_html, pwd_uri)
 
 
 			new_HTML.append(infoLine)
