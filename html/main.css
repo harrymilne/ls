@@ -99,7 +99,7 @@ strong{
   font-size: 0.8em;
   text-decoration: inherit;
   -webkit-font-smoothing: antialiased;
-  *margin-right: .3em;
+  margin-right: .3em;
 }
 
 #info-box{
