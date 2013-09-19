@@ -67,7 +67,7 @@ class Webpage:
 			socket = server_data[server]["socket"][0] +":"+ str(server_data[server]["socket"][1])
 
 			if process_empty[server]["passworded"]:
-				pwd = '*'
+				pwd = '<span id="icon"></span>  '
 			else:
 				pwd = ''
 
