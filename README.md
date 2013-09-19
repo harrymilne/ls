@@ -9,7 +9,7 @@ However, if you do want to run this yourself, here's how to do it.
 
   * Python 3.3
   * Apache or any equiv
-
+  * Font Awesome for icon support
 ##Setup
 
   You'll need to edit the prefs.ini so that "index" points to the HTML file you want to edit (which has to contain
