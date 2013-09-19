@@ -4,14 +4,25 @@
 @import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro);
 
 @font-face {
-    font-family: 'LeagueGothicRegular';
-    src: url('fonts/League_Gothic-webfont.eot');
-    src: url('fonts/League_Gothic-webfont.eot?#iefix') format('embedded-opentype'),
-         url('fonts/League_Gothic-webfont.woff') format('woff'),
-         url('fonts/League_Gothic-webfont.ttf') format('truetype'),
-         url('fonts/League_Gothic-webfont.svg#LeagueGothicRegular') format('svg');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'LeagueGothicRegular';
+  src: url('fonts/League_Gothic-webfont.eot');
+  src: url('fonts/League_Gothic-webfont.eot?#iefix') format('embedded-opentype'),
+       url('fonts/League_Gothic-webfont.woff') format('woff'),
+       url('fonts/League_Gothic-webfont.ttf') format('truetype'),
+       url('fonts/League_Gothic-webfont.svg#LeagueGothicRegular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'FontAwesome';
+  src: url('fonts/fontawesome-webfont.eot?v=3.2.1');
+  src: url('fonts/fontawesome-webfont.eot?#iefix&v=3.2.1') format('embedded-opentype'),
+       url('fonts/fontawesome-webfont.woff?v=3.2.1') format('woff'),
+       url('fonts/fontawesome-webfont.ttf?v=3.2.1') format('truetype'),
+       url('fonts/fontawesome-webfont.svg#fontawesomeregular?v=3.2.1') format('svg');
+  font-weight: normal;
+  font-style: normal;
 }
 
 body {
@@ -79,6 +90,16 @@ strong{
 	background: #F5F5F5;
 	-moz-border-radius: 12px;
 	border-radius: 12px;
+}
+
+#icon{
+  font-family: FontAwesome;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 0.8em;
+  text-decoration: inherit;
+  -webkit-font-smoothing: antialiased;
+  *margin-right: .3em;
 }
 
 #info-box{
