@@ -1,4 +1,5 @@
 from prefs import Prefs
+from pprint import pprint
 import pickle
 
 def get_stats(prefs):
@@ -7,5 +8,5 @@ def get_stats(prefs):
 
 if __name__ == "__main__":
 	prefs = Prefs("prefs.ini").open_prefs()
-	print(get_stats(prefs))
+	pprint(get_stats(prefs))
 
