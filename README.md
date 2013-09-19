@@ -9,6 +9,7 @@ However, if you do want to run this yourself, here's how to do it.
 
   * Python 3.3
   * Apache or any equiv
+  * Font Awesome for icon support
 
 ##Setup
 
