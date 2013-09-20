@@ -46,9 +46,9 @@ class Stats:
 			players_online += len(server_data[server]["players"])
 
 		if hour in self.stats[-1].hours:
-			self.stats[-1].hours[hour] += round(players_online/60)
+			self.stats[-1].hours[hour] += round(players_online/60, 2)
 		else:
-			self.stats[-1].hours[hour] = round(players_online/60)
+			self.stats[-1].hours[hour] = round(players_online/60, 2)
 
 	def set_server_players(self, server_data, hour):
 		for server in server_data:
@@ -56,7 +56,7 @@ class Stats:
 			if server not in self.stats[-1].servers:
 				self.stats[-1].servers[server] = {}
 			if hour in self.stats[-1].servers[server]:
-				self.stats[-1].servers[server][hour] += round(players/60)
+				self.stats[-1].servers[server][hour] += round(players/60, 2)
 			else:
-				self.stats[-1].servers[server][hour] = round(players/60)
+				self.stats[-1].servers[server][hour] = round(players/60, 2)
 
