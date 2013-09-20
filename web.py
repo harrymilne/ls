@@ -36,7 +36,7 @@ class Webpage:
 			socket = server_data[server]["socket"][0] +":"+ str(server_data[server]["socket"][1])
 
 			if process_online[server]["passworded"]:
-				pwd_html = '<span id="icon"></span>'
+				pwd_html = '<span id="icon"></span> '
 				pwd_uri = '*'
 			else:
 				pwd_html = pwd_uri = ''
@@ -68,7 +68,7 @@ class Webpage:
 			socket = server_data[server]["socket"][0] +":"+ str(server_data[server]["socket"][1])
 
 			if process_empty[server]["passworded"]:
-				pwd_html = '<span id="icon"></span>'
+				pwd_html = '<span id="icon"></span> '
 				pwd_uri = '*'
 			else:
 				pwd_html = pwd_uri = ''
