@@ -43,7 +43,7 @@ class Webpage:
 			
 
 			serverHeader = '<div class="button" id="server{0}">'.format(serverCount)
-			infoLine = """
+			info_line = """
 					<div class="server-box" id="server-online-box">
 						<div id="box-title">{0}</div>
 						<div id="box-middle">{5} {1}/{2}</div>
@@ -59,7 +59,7 @@ class Webpage:
 			playerLine += '\n\t\t\t\t</div>'
 
 			serverFooter = "</div>\n"
-			new_HTML.append(serverHeader + infoLine + serverFooter + playerLine)
+			new_HTML.append(serverHeader + info_line + serverFooter + playerLine)
 
 			serverCount += 1
 
@@ -73,7 +73,7 @@ class Webpage:
 			else:
 				pwd_html = pwd_uri = ''
 
-			infoLine = """
+			info_line = """
 					<div class="server-box" id="server-empty-box">
 						<div id="box-title"><a href = "legions://{5}{7}">{0}</a></div>
 						<div id="box-middle">{6} {1}/{2}</div>
@@ -83,7 +83,7 @@ class Webpage:
 			""".format(server, process_empty[server]["player_count"], process_empty[server]["max_players"], process_empty[server]["mission"], process_empty[server]["gamemode"], socket, pwd_html, pwd_uri)
 
 
-			new_HTML.append(infoLine)
+			new_HTML.append(info_line)
 
 
 		html = htmlLines[:html_start+1] + ['\n'] + new_HTML + ['\n'] +htmlLines[html_end:]
