@@ -36,7 +36,7 @@ class Webpage:
 			socket = server_data[server]["socket"][0] +":"+ str(server_data[server]["socket"][1])
 
 			if process_online[server]["passworded"]:
-				pwd_html = '<span id="icon"></span> '
+				pwd_html = '<span id="icon"></span>'
 				pwd_uri = '*'
 			else:
 				pwd_html = pwd_uri = ''
@@ -46,7 +46,7 @@ class Webpage:
 			infoLine = """
 					<div class="server-box" id="server-online-box">
 						<div id="box-title">{0}</div>
-						<div id="box-middle">{5}{1}/{2}</div>
+						<div id="box-middle">{5} {1}/{2}</div>
 						<div id="box-mission">{3}</div>
 						<div id="box-end">{4}</div>
 					</div>
@@ -68,7 +68,7 @@ class Webpage:
 			socket = server_data[server]["socket"][0] +":"+ str(server_data[server]["socket"][1])
 
 			if process_empty[server]["passworded"]:
-				pwd_html = '<span id="icon"></span> '
+				pwd_html = '<span id="icon"></span>'
 				pwd_uri = '*'
 			else:
 				pwd_html = pwd_uri = ''
@@ -76,7 +76,7 @@ class Webpage:
 			infoLine = """
 					<div class="server-box" id="server-empty-box">
 						<div id="box-title"><a href = "legions://{5}{7}">{0}</a></div>
-						<div id="box-middle">{6}{1}/{2}</div>
+						<div id="box-middle">{6} {1}/{2}</div>
 						<div id="box-mission">{3}</div>
 						<div id="box-end">{4}</div>
 					</div>
