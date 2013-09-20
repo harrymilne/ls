@@ -187,6 +187,7 @@ class LegionsClient:
 			password = bool(int(status[1]))
 
 			raw_players = data[offset:].decode("utf-8", errors="replace").splitlines()
+
 			players = []
 			for player in raw_players:
 				players.append(player[2:-2])
@@ -223,8 +224,6 @@ class LegionsClient:
 				server_dict["socket"] = server
 				self.server_info[server_name] = server_dict
 				print("MSG: {0} sucessfully parsed.".format(server_name))
-				if len(server_dict["players"]):
-					print("MSG: Players: "+", ".join(server_dict["players"]))
 
 
 
