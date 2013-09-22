@@ -7,7 +7,7 @@ class Logger:
 
 	def checkFile(self):
 		if not os.path.exists(self.log_file):
-			with open(self.log_file, "w") as log:
+			with open(self.log_file, "w", encoding = "utf-8") as log:
 				log.write("---LEGIONS MASTER QUERY ERROR LOGS---\n")
 
 	def write(self, msg, lvl):
