@@ -223,7 +223,7 @@ class LegionsClient:
 				server_dict = self.parse_single(game_info_data)
 				server_dict["socket"] = server
 				self.server_info[server_name] = server_dict
-				print("MSG: {0} sucessfully parsed.".format(server_name))
+				print("MSG: {0} with {1} players sucessfully parsed.".format(server_name, len(server_dict["players"])))
 
 
 
@@ -239,6 +239,7 @@ if __name__ == "__main__":
 		log = Logger(pref_dict["errors"])
 
 		if "stats" in pref_dict:
+			print("MSG: Stats variable found, recording...")
 			stats = Stats(pref_dict)
 
 		##setup webpage editor object
@@ -252,6 +253,7 @@ if __name__ == "__main__":
 				webpage.write(server_data)
 				if "stats" in pref_dict:
 					stats.log(server_data)
+					print("MSG: Stats recorded.")
 				print("MSG: Sleeping for 60 seconds...")
 				time.sleep(60)
 			except:
