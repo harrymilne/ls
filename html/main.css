@@ -65,6 +65,7 @@ strong{
 
 .button{ 
 	padding: 0px;
+	width: 800px;
 }
 
 .button:hover{
