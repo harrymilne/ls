@@ -72,9 +72,10 @@ class Stats:
 			self.date = new_date
 		self.set_players_online(server_data, hour)
 		self.set_server_players(server_data, hour)
-		if self.check_days() >= 7:
-			with open("total.bin", "wb") as total_file:
-				pickle.dump(Total(self.stats), total_file)
+		full_days = self.get_full_days()
+		if len(full_days) > 1:
+			with open("total.bin") as total_f:
+				pickle.dump(Total(full_days), total_f)
 		self.save()
 
 	def new_day(self):
@@ -83,12 +84,12 @@ class Stats:
 		else:
 			return False
 
-	def check_days(self):
-		full_day_count = 0
+	def get_full_days(self):
+		full_days = []
 		for record in self.stats:
 			if record.is_full_day():
-				full_day_count += 1
-		return full_day_count
+				full_days.append(record)
+		return full_days
 
 	def set_players_online(self, server_data, hour):
 		players_online = 0
