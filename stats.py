@@ -40,7 +40,7 @@ class Activity:
 	def is_full_day(self):
 		keys = list(self.hours.keys())
 		keys.sort()
-		check_keys = [str(i) for i in range(24)]
+		check_keys = ["{:0>2}".format(i) for i in range(24)]
 		if keys == check_keys:
 			return True
 		else:
