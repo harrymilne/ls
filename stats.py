@@ -38,10 +38,9 @@ class Activity:
 		self.servers = {}
 
 	def is_full_day(self):
-		keys = self.hours.keys()
-		check_keys = []
-		for i in range(24):
-			check_keys.append(str(i))
+		keys = list(self.hours.keys())
+		keys.sort()
+		check_keys = [str(i) for i in range(24)]
 		if keys == check_keys:
 			return True
 		else:
