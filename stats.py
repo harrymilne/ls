@@ -73,7 +73,7 @@ class Stats:
 		self.set_server_players(server_data, hour)
 		full_days = self.get_full_days()
 		if len(full_days) > 1:
-			with open("total.bin") as total_f:
+			with open("total.bin", "wb") as total_f:
 				pickle.dump(Total(full_days), total_f)
 		self.save()
 
