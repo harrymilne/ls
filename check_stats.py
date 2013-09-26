@@ -40,10 +40,9 @@ class Activity:
 		self.servers = {}
 
 	def is_full_day(self):
-		keys = self.hours.keys()
-		check_keys = []
-		for i in range(24):
-			check_keys.append(str(i))
+		keys = list(self.hours.keys())
+		keys.sort()
+		check_keys = [str(i) for i in range(24)]
 		if keys == check_keys:
 			return True
 		else:
@@ -69,5 +68,5 @@ if __name__ == "__main__":
 
 	full_day_count = ([record for record in stats_list if record.is_full_day()])
 
-	print("There are {0} full days.".format(full_day_count))
+	print("There are {0} full days.".format(len(full_day_count))
 
