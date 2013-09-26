@@ -68,5 +68,9 @@ if __name__ == "__main__":
 
 	full_day_count = ([record for record in stats_list if record.is_full_day()])
 
+<<<<<<< HEAD
 	print("There are {0} full days.".format(len(full_day_count))
 
+=======
+	print("There are {0} full days.".format(len(full_day_count)))
+>>>>>>> Activity class updated
