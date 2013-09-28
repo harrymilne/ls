@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>Legions Servers</title>
+		<link rel="stylesheet" href="main.css">
+</head>
+<body onload="timedRefresh(60000);">
+		<header>
+			<div>
+				<a href="">Legions Servers</a>
+			</div>
+		</header>
+		<content>
+		<div class="server-box" id="info-box">Last updated: {{ date }}</div>
+{% for server in servers_online %}
+		<div class="button" id="server{{ loop.index0 }}">
+			<div class="server-box" id="server-online-box">
+				<div id="box-title">{{ server }}</div>
+				<div id="box-middle">{% if server_data[server]["passworded"] %}<span id="icon">{{ icon }}</span>{% endif %}{{ server_data[server]["player_count"] }}/{{ server_data[server]["max_players"] }}</div>
+				<div id="box-mission">{{ server_data[server]["mission"] }}</div>
+				<div id="box-end">{{ server_data[server]["gamemode"] }}</div>
+			</div>
+		</div>
+		<div class = "playerlist" id = "server{{ loop.index0 }}list">
+			{% for player in server_data[server]["players"] %}<div id="box-name">{{ player }}</div>{% endfor %}
+ 			<div id="box-join"><a href = "legions://{{ server_data[server]["socket"] }}{% if server_data[server]["passworded"] %}*{% endif %}">Join Server</a></div>
+		</div>
+{% endfor %}
+{% for server in servers_empty %}
+		<div class="button" id="server{{ loop.index0 }}">
+			<div class="server-box" id="server-empty-box">
+				<div id="box-title"><a href="legions://{{ server_data[server]["socket"] }}">{{ server }}</a></div>
+				<div id="box-middle">{% if server_data[server]["passworded"] %}<span id="icon">{{ icon }}</span>{% endif %} {{ server_data[server]["player_count"] }}/{{ server_data[server]["max_players"] }}</div>
+				<div id="box-mission">{{ server_data[server]["mission"] }}</div>
+				<div id="box-end">{{ server_data[server]["gamemode"] }}</div>
+			</div>
+		</div>
+{% endfor %}
+		<div class="server-box" id="info-box">
+			<a href="ts3server://ts3.legionsoverdrive.com">Join Legions TS3</a>
+		</div>
+		<div class="server-box" id="info-box">
+			Coded by <a href="http://github.com/harrymilne/ls">harrymilne</a>, Hosted by <a href="http://github.com/xzanth">xzanth</a>
+		</div>
+		</content>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.1.min.js"><\/script>')</script>
+	<script src="js/main.js"></script>
+	<script src="js/timed.js"></script>
+</body>
+</html>

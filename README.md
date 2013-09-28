@@ -8,13 +8,12 @@ However, if you do want to run this yourself, here's how to do it.
 ##Requirements
 
   * Python 3.3
-  * Apache or any equiv
+  * Jinja2
   * Font Awesome for icon support
 
 ##Setup
 
-  You'll need to edit the prefs.ini so that "index" points to the HTML file you want to edit (which has to contain
-  the markers <!--SERVERSTART--> and <!--SERVEREND--> so that it knows what position in the file to write to.
+  You'll need to edit the prefs.ini so that "index" points to the HTML file you want to write to.
   The "js" variable in prefs.ini is just the javascript file which contains the JS to create the sliding playerbox effect
   so have that point to your "main.js" file for that HTML page.
   The error variable just points to a file to write errors to, you can leave this as default.
@@ -29,8 +28,9 @@ However, if you do want to run this yourself, here's how to do it.
 	[x] Legions URI implementation
 	[x] Player name box
 	[x] Cleaner rewrite with better packet decoding
-	[ ] Finish stats implementation
-	[ ] Better HTML implementation (Jinja?)
-	[ ] Better logger?
+	[ ] Graphs using Google Graphs?
+	[ ] Finish stats implementation (maybe sqldb)
+	[x] Better HTML implementation (Jinja)
+	[x] Better logger?
 	
 
