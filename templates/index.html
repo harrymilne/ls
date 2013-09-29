@@ -24,13 +24,13 @@
 		</div>
 		<div class = "playerlist" id = "server{{ loop.index0 }}list">
 			{% for player in server_data[server]["players"] %}<div id="box-name">{{ player }}</div>{% endfor %}
- 			<div id="box-join"><a href = "legions://{{ server_data[server]["socket"] }}{% if server_data[server]["passworded"] %}*{% endif %}">Join Server</a></div>
+ 			<div id="box-join"><a href = "legions://{{ server_data[server]["socket"][0] }}:{{ server_data[server]["socket"][1] }}{% if server_data[server]["passworded"] %}*{% endif %}">Join Server</a></div>
 		</div>
 {% endfor %}
 {% for server in servers_empty %}
 		<div class="button" id="server{{ loop.index0 }}">
 			<div class="server-box" id="server-empty-box">
-				<div id="box-title"><a href="legions://{{ server_data[server]["socket"] }}">{{ server }}</a></div>
+				<div id="box-title"><a href="legions://{{ server_data[server]["socket"][0] }}:{{ server_data[server]["socket"][1] }}">{{ server }}</a></div>
 				<div id="box-middle">{% if server_data[server]["passworded"] %}<span id="icon">{{ icon }}</span>{% endif %} {{ server_data[server]["player_count"] }}/{{ server_data[server]["max_players"] }}</div>
 				<div id="box-mission">{{ server_data[server]["mission"] }}</div>
 				<div id="box-end">{{ server_data[server]["gamemode"] }}</div>
