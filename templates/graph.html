@@ -1,0 +1,31 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Hour (GMT)', 'Activity'],
+          {% for hour, players in player_activity %}
+          ['{{ hour }}',  {{ players }}]{% if not loop.last %},{% endif %}
+          {% endfor %}
+        ]);
+
+        var options = {
+          title: '{{ title }}',
+          hAxis: {title: 'Hour (GMT)',  titleTextStyle: {color: '#333'}},
+          vAxis: {title: 'Avg. Player Count'}
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+    <title>{{ title }}</title>
+  </head>
+  <body>
+    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+    <div id="caption">{{ caption }}</div>
+  </body>
+</html>
