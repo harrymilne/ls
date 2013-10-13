@@ -258,15 +258,15 @@ if __name__ == "__main__":
 				time.sleep(60)
 			except:
 				error_count += 1
-				error_text = str(sys.exc_info())
+				error_text = traceback.format_exc()
 				log.write(error_text, "[FATAL]")
-				print("ERR: {0} occurred.".format(error_text))
-				if error_count < 5:
+				print("ERR: {0}".format(error_text))
+				if error_count < 6:
 					print("ERR: Error has been logged and the script will continue in 5 seconds...")
 				else:
 					print("ERR: Continuous error, program cannot recover...")
 					exit()
-				time.sleep(5)
+				time.sleep(10)
 	else:
 		print("ERR: Prefs not found!")
 		print("MSG: Script cannot run without a prefs.ini, stopping...")
