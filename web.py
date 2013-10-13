@@ -2,21 +2,25 @@ import time
 import os
 import pickle
 import jinja2 as jin
-from stats import Total
+from stats import Total, load
 
 
 class Webpage:
 
 	def __init__(self, prefs):
+		self.prefs 	= prefs
 		self.env 	= jin.Environment(loader=jin.FileSystemLoader("templates/"))
 		self.index 	= self.env.get_template("index.html")
 		self.js 	= self.env.get_template("main.js")
 		self.graph 	= self.env.get_template("graph.html")
-		self.prefs 	= prefs
+		if len([i for i in os.listdir(self.prefs["graphs"]) if i.endswith(".html")]):
+			self.list_graphs()
+
 
 	def write(self, server_data):
 		self.write_HTML(server_data)
 		self.write_graph()
+		self.list_graphs()
 
 	def write_HTML(self, server_data):
 		servers_online = sorted([server for server in server_data if bool(len(server_data[server]["players"]))])
@@ -43,10 +47,18 @@ class Webpage:
 			js_f.write(rendered)
 		print("MSG: JS Written.")
 
+	def list_graphs(self):
+		files = [i for i in os.listdir(self.prefs["graphs"]) if i.endswith(".html")]
+		files.remove("index.html")
+		file_list = zip(files, [i[:-5].replace("-"," ").title() for i in files])
+		graph_list = self.env.get_template("graph_index.html")
+		rendered = graph_list.render(file_list = file_list)
+		with open(self.prefs["graphs"]+"index.html", mode="w", encoding="utf-8") as graph_i:
+			graph_i.write(rendered)
+
 	def write_graph(self):
-		if os.path.exists("total.bin"):
-			with open("total.bin", "rb") as total_f:
-				total = pickle.load(total_f)
+		if os.path.exists(self.prefs["total_stats"]):
+			total 		= load(self.prefs["total_stats"])
 			graph_name 	= "Total Activity Data"
 			hour_list 	= sorted(list(total.hours.keys()))
 			xy_data 	= zip(hour_list, [total.hours[i] for i in hour_list])
@@ -58,5 +70,7 @@ class Webpage:
 			file_name = graph_name.lower().replace(" ","-")+".html"
 			with open(self.prefs["graphs"]+file_name, mode="w", encoding="utf-8") as graph_f:
 				graph_f.write(rendered)
+
+
 
 
