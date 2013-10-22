@@ -28,7 +28,7 @@ However, if you do want to run this yourself, here's how to do it.
 	[x] Legions URI implementation
 	[x] Player name box
 	[x] Cleaner rewrite with better packet decoding
-	[ ] Graphs using Google Graphs?
+	[x] Graphs using Google Graphs?
 	[ ] Finish stats implementation (maybe sqldb)
 	[x] Better HTML implementation (Jinja)
 	[x] Better logger?
