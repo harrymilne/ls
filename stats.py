@@ -48,6 +48,7 @@ class Activity:
 
 class Stats:
 	def __init__(self, prefs):
+		self.prefs = prefs
 		self.stats_filen 	= prefs["stats"]
 		self.total_stats_filen = prefs["total_stats"]
 		self.stats 		= []
@@ -56,8 +57,23 @@ class Stats:
 			self.stats 	= self.load()
 			self.date 	= self.stats[-1].date_recorded
 		else:
-			with open(self.stats_filen, "wb"):
-				pass
+			for f in ["stats", "total_stats"]:
+				self.init_folder(f)
+				self.init_file(f)
+
+
+	def init_folder(self, dict_n):
+		dirs = self.prefs[dict_n].split("/")
+		for i, d in zip(range(1, len(dirs)+1), dirs):
+			if "." not in d and not os.path.exists(os.path.join(*dirs[0:i])):
+				os.mkdir(os.path.join(*dirs[0:i]))
+
+
+	def init_file(self, dict_n):
+		if dict_n in self.prefs:
+			if not os.path.exists(self.prefs[dict_n]):
+				with open(self.prefs[dict_n], mode="w", encoding="utf-8") as f:
+					pass
 
 	def load(self):
 		with open(self.stats_filen, "rb") as stats_file:

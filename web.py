@@ -13,8 +13,16 @@ class Webpage:
 		self.js 	= self.env.get_template("main.js")
 		self.graph 	= self.env.get_template("graph.html")
 		self.prefs 	= prefs
-		for f in ["index", "js", "graph"]:
+		for f in ["index", "js", "graphs"]:
+			self.init_folder(f)
 			self.init_file(f)
+
+
+	def init_folder(self, dict_n):
+		dirs = self.prefs[dict_n].split("/")
+		for i, d in zip(range(1, len(dirs)+1), dirs):
+			if "." not in d and not os.path.exists(os.path.join(*dirs[0:i])):
+				os.mkdir(os.path.join(*dirs[0:i]))
 
 
 	def init_file(self, dict_n):
