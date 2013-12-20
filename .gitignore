@@ -8,3 +8,4 @@ stats
 *.bat
 *.bin
 *.log
+*.ini
