@@ -10,7 +10,10 @@ class Prefs:
 			self.open_prefs()
 			return True
 		else:
-			return False
+			with open(self.pref_file, encoding="utf-8", mode="w") as pref_f:
+				pref_f.write("index=html/index.html\njs=html/js/main.js\nerrors=error.log\nstats=stats/stats.bin\ntotal_stats=stats/total.bin\ngraphs=html/graphs/")
+			print("created default.cfg")
+			return True
 
 	def open_prefs(self):
 		with open(self.pref_file, mode = "r") as config_file:
@@ -22,5 +25,5 @@ class Prefs:
 
 
 if __name__ == "__main__":
-	prefs = Prefs("prefs.ini")
+	prefs = Prefs("default.cfg")
 	print(prefs.prefs)

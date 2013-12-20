@@ -7,7 +7,7 @@ import socket
 import binascii
 import time
 import sys
-
+import traceback
 
 class LegionsClient:
 
@@ -75,6 +75,7 @@ class LegionsClient:
 
 	def send_master(self, packet):
 		data = []
+		fail_sleep_len = 15		
 
 		req_sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 		req_sock.settimeout(5)
@@ -95,17 +96,21 @@ class LegionsClient:
 		except socket.timeout:
 			message = "ERR: Master server timed out, will retry..."
 			print(message)
-			time.sleep(1)
+			time.sleep(fail_sleep_len)
 			return False
 		except socket.gaierror:
 			message = "ERR: Master server DNS fail, will retry..."
 			print(message)
-			time.sleep(1)
+			time.sleep(fail_sleep_len)
 			return False
 		except ConnectionRefusedError:
 			message = "ERR: Master server refused the connection, will retry..."
 			print(message)
-			time.sleep(1)
+			time.sleep(fail_sleep_len)
+		except OSError:
+			message = "ERR: Connection error..."
+			print(message)
+			time.sleep(fail_sleep_len)
 
 	def parse_master(self, data):
 		offset = 10
@@ -143,11 +148,13 @@ class LegionsClient:
 			req_sock.settimeout(4)
 			data = req_sock.recv(4096)
 		except socket.timeout:
-			print("MSG: {0} timed out...".format(host))
+			print("ERR: {0} timed out...".format(host))
 		except socket.gaierror:
-			print("MSG: {0} DNS error...".format(host))
+			print("ERR: {0} DNS error...".format(host))
 		except ConnectionRefusedError:
-			print("MSG: {0} refused the connection...".format(host))
+			print("ERR: {0} refused the connection...".format(host))
+		except OSError:
+			print("ERR: Connection error...")
 		req_sock.close()
 		return data
 
@@ -256,17 +263,20 @@ if __name__ == "__main__":
 					print("MSG: Stats recorded.")
 				print("MSG: Sleeping for 60 seconds...")
 				time.sleep(60)
+			except KeyboardInterrupt:
+				sys.exit()
 			except:
 				error_count += 1
-				error_text = traceback.format_exc()
+				error_text = str(sys.exc_info())
 				log.write(error_text, "[FATAL]")
-				print("ERR: {0}".format(error_text))
-				if error_count < 6:
+				print("ERR: {0} occurred.".format(error_text))
+				traceback.print_exc()
+				if error_count < 5:
 					print("ERR: Error has been logged and the script will continue in 5 seconds...")
 				else:
 					print("ERR: Continuous error, program cannot recover...")
 					exit()
-				time.sleep(10)
+				time.sleep(5)
 	else:
 		print("ERR: Prefs not found!")
 		print("MSG: Script cannot run without a prefs.ini, stopping...")

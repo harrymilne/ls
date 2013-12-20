@@ -48,13 +48,24 @@ class Activity:
 
 class Stats:
 	def __init__(self, prefs):
-		self.file_name 	= prefs["stats"]
+		self.stats_filen 	= prefs["stats"]
+		self.total_stats_filen = prefs["total_stats"]
 		self.stats 		= []
 		self.date 		= "0/0/0"
-		if os.path.exists(self.file_name):
-			self.stats 	= load(self.file_name)
+		if os.path.exists(self.stats_filen):
+			self.stats 	= self.load()
 			self.date 	= self.stats[-1].date_recorded
+		else:
+			with open(self.stats_filen, "wb"):
+				pass
 
+	def load(self):
+		with open(self.stats_filen, "rb") as stats_file:
+			return pickle.load(stats_file)
+
+	def save(self):
+		with open(self.stats_filen, "wb") as stats_file:
+			pickle.dump(self.stats, stats_file)
 		
 	def log(self, server_data):
 		hour = time.strftime("%H", time.gmtime())
@@ -66,10 +77,9 @@ class Stats:
 		self.set_server_players(server_data, hour)
 		full_days = self.get_full_days()
 		if len(full_days) > 1:
-			with open("total.bin", "wb") as total_f:
-				total_obj = Total(full_days)
-				pickle.dump(total_obj, total_f)
-		save(self.file_name, self.stats)
+			with open(self.total_stats_filen, "wb") as total_f:
+				pickle.dump(Total(full_days), total_f)
+		self.save()
 
 	def new_day(self):
 		if self.date != time.strftime("%d/%m/%Y", time.gmtime()):
@@ -107,12 +117,3 @@ class Stats:
 				self.stats[-1].servers[server][hour] = players/60
 
 			self.stats[-1].servers[server][hour] = round(self.stats[-1].servers[server][hour], 2)
-
-
-def load(file_name):
-	with open(file_name, "rb") as stats_file:
-		return pickle.load(stats_file)
-
-def save(file_name, data):
-	with open(file_name, "wb") as stats_file:
-		pickle.dump(data, stats_file)
