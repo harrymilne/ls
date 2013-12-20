@@ -13,6 +13,15 @@ class Webpage:
 		self.js 	= self.env.get_template("main.js")
 		self.graph 	= self.env.get_template("graph.html")
 		self.prefs 	= prefs
+		for f in ["index", "js", "graph"]:
+			self.init_file(f)
+
+
+	def init_file(self, dict_n):
+		if dict_n in self.prefs:
+			if not os.path.exists(self.prefs[dict_n]):
+				with open(self.prefs[dict_n], mode="w", encoding="utf-8") as f:
+					pass
 
 	def write(self, server_data):
 		self.write_HTML(server_data)
