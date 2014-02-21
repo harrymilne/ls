@@ -3,11 +3,13 @@ from logger import Logger
 from prefs import Prefs
 from web import Webpage
 from stats import Stats
+
 import socket
 import binascii
 import time
 import sys
 import traceback
+import html
 
 class LegionsClient:
 
@@ -197,7 +199,7 @@ class LegionsClient:
 
 			players = []
 			for player in raw_players:
-				players.append(player[2:-2])
+				players.append(html.escape(player[2:-2]))
 
 			return {"mission":mission_name, "gamemode":mission_type, "players":players, "player_count":player_count, "max_players":max_players, "passworded":password}
 

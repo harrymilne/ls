@@ -2,8 +2,8 @@ import time
 import os
 import pickle
 import jinja2 as jin
-from stats import Total
 
+from stats import Total
 
 class Webpage:
 

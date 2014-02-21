@@ -1,5 +1,6 @@
 import os
 import time
+
 class Logger:
 	def __init__(self, log_file):
 		self.log_file = log_file
