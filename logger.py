@@ -25,4 +25,3 @@ class Logger:
 
 if __name__ == "__main__":
 	logger = Logger("error.log")
-	logger.write("UH OH SHIT FUCKED UP", "lvl")

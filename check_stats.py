@@ -1,5 +1,5 @@
 from prefs import Prefs
-from pprint import pprint
+
 import pickle
 import os
 import time
@@ -30,8 +30,6 @@ class Total:
 
 		for hour in self.hours:
 			self.hours[hour] = round(self.hours[hour]/self.record_count, 3)
-
-
 
 class Activity:
 	def __init__(self, date):
@@ -64,7 +62,6 @@ if __name__ == "__main__":
 	if type(stats_list) == type([]):
 		for i in stats_list:
 			print(i.date_recorded)
-			pprint(i.hours)
 
 	full_day_count = ([record for record in stats_list if record.is_full_day()])
 
