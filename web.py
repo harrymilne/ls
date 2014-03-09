@@ -43,7 +43,7 @@ class Webpage:
 			icon			= unichr(61475))
 
 		with open(self.cfg.get("core", "index"), mode="w") as index_f:
-			index_f.write(rendered)
+			index_f.write(rendered.encode("utf-8"))
 		print("MSG: HTML Written.")
 
 		self.write_JS(len(servers_online))

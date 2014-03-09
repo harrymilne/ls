@@ -17,13 +17,13 @@ class LegionsClient:
 		self.server_info = {}
 
 		#Structs
-		self.reply_struct 		= Struct('<BBHHBBH')
-		self.server_struct 		= Struct('<4sH')
+		self.reply_struct 		= Struct('BBHHBBH')
+		self.server_struct 		= Struct('4sH')
 
-		self.byte_struct		= Struct('<B')
-		self.info_struct_req 	= Struct('<BBI')
+		self.byte_struct		= Struct('B')
+		self.info_struct_req 	= Struct('BBI')
 
-		self.info_struct_resp 	= Struct('<BBBBH')
+		self.info_struct_resp 	= Struct('BBBBH')
 
 		#Network
 		self.master_socket 	= ("master.legionsoverdrive.com",28002)
@@ -123,12 +123,16 @@ class LegionsClient:
 
 		for packet in data:
 			servers_in_packet = self.reply_struct.unpack_from(packet)[-1]
+			print(servers_in_packet)
 			for servers in range(servers_in_packet):
-				server_data.append(self.server_struct.unpack_from(packet, offset = offset))
+				data = self.server_struct.unpack_from(packet, offset = offset)
+				print(data)
+				server_data.append(data)
 				offset += self.server_struct.size
 
+		print(server_data)
 		for server in server_data:
-			self.ip_list.append((".".join(str(i) for i in server[0]),server[1]))
+			self.ip_list.append((".".join([str(ord(i)) for i in server[0]]),server[1]))
 
 	def query_master(self):
 		packet = self.pack_master()
