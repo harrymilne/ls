@@ -123,14 +123,12 @@ class LegionsClient:
 
 		for packet in data:
 			servers_in_packet = self.reply_struct.unpack_from(packet)[-1]
-			print(servers_in_packet)
 			for servers in range(servers_in_packet):
 				data = self.server_struct.unpack_from(packet, offset = offset)
 				print(data)
 				server_data.append(data)
 				offset += self.server_struct.size
 
-		print(server_data)
 		for server in server_data:
 			self.ip_list.append((".".join([str(ord(i)) for i in server[0]]),server[1]))
 
