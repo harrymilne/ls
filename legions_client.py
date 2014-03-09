@@ -1,15 +1,14 @@
 from struct import *
-from logger import Logger
-from prefs import Prefs
 from web import Webpage
-from stats import Stats
+from markupsafe import escape
+from ConfigParser import ConfigParser
 
 import socket
 import binascii
 import time
 import sys
 import traceback
-import html
+import logging
 
 class LegionsClient:
 
@@ -93,6 +92,7 @@ class LegionsClient:
 					data.append(req_sock.recv(4096))
 					print("MSG: ", binascii.hexlify(data[-1]))
 			req_sock.close()
+			print(data)
 			return data
 
 		except socket.timeout:
@@ -100,15 +100,18 @@ class LegionsClient:
 			print(message)
 			time.sleep(fail_sleep_len)
 			return False
+
 		except socket.gaierror:
 			message = "ERR: Master server DNS fail, will retry..."
 			print(message)
 			time.sleep(fail_sleep_len)
 			return False
+
 		except ConnectionRefusedError:
 			message = "ERR: Master server refused the connection, will retry..."
 			print(message)
 			time.sleep(fail_sleep_len)
+
 		except OSError:
 			message = "ERR: Connection error..."
 			print(message)
@@ -199,7 +202,7 @@ class LegionsClient:
 
 			players = []
 			for player in raw_players:
-				players.append(html.escape(player[2:-2]))
+				players.append(str(escape(player[2:-2])))
 
 			return {"mission":mission_name, "gamemode":mission_type, "players":players, "player_count":player_count, "max_players":max_players, "passworded":password}
 
@@ -221,6 +224,7 @@ class LegionsClient:
 	def query_all(self):
 		game_info_packet = self.pack_single(self.game_info_req)
 		game_ping_packet = self.pack_single(self.game_ping_req)
+		print(self.ip_list)
 		for server in self.ip_list:
 			print("MSG: Querying {0}...".format(server))
 			game_ping_data = self.send_single(server, game_ping_packet)
@@ -234,52 +238,49 @@ class LegionsClient:
 				self.server_info[server_name] = server_dict
 				print("MSG: {0} with {1} players sucessfully parsed.".format(server_name, len(server_dict["players"])))
 
-
+def get_cfg():
+	if "-c" in sys.argv:
+		flag_index = sys.argv.index("-c")
+		filen = sys.argv[flag_index+1]
+		if os.path.exists(filen) and os.path.isfile(filen):
+			return filen
 
 
 if __name__ == "__main__":
 	error_count = 0
-	##retrieve prefs.ini as dict
-	pref_obj = Prefs("prefs.ini")
-	if pref_obj.check_prefs():
-		pref_dict = pref_obj.open_prefs()
-		
-		##setup error logger for __main__
-		log = Logger(pref_dict["errors"])
+	##cfg
+	cfg = ConfigParser()
+	cfg_file = get_cfg()
 
-		if "stats" in pref_dict:
-			print("MSG: Stats variable found, recording...")
-			stats = Stats(pref_dict)
-
-		##setup webpage editor object
-		webpage = Webpage(pref_dict)
-		while True:
-			try:
-				l_client = LegionsClient()
-				l_client.query_master()
-				l_client.query_all()
-				server_data = l_client.server_info
-				webpage.write(server_data)
-				if "stats" in pref_dict:
-					stats.log(server_data)
-					print("MSG: Stats recorded.")
-				print("MSG: Sleeping for 60 seconds...")
-				time.sleep(60)
-			except KeyboardInterrupt:
-				sys.exit()
-			except:
-				error_count += 1
-				error_text = str(sys.exc_info())
-				log.write(error_text, "[FATAL]")
-				print("ERR: {0} occurred.".format(error_text))
-				traceback.print_exc()
-				if error_count < 5:
-					print("ERR: Error has been logged and the script will continue in 5 seconds...")
-				else:
-					print("ERR: Continuous error, program cannot recover...")
-					exit()
-				time.sleep(5)
+	if cfg_file:
+		cfg.read(cfg_file)
 	else:
-		print("ERR: Prefs not found!")
-		print("MSG: Script cannot run without a prefs.ini, stopping...")
+		cfg.read("default.cfg")
+
+	##log
+	logging.basicConfig(filename=cfg.get("core", "errors"))
+
+
+	##setup webpage editor object
+	webpage = Webpage(cfg)
+	while True:
+		try:
+			l_client = LegionsClient()
+			l_client.query_master()
+			l_client.query_all()
+			server_data = l_client.server_info
+			webpage.write(server_data)
+			print("MSG: Sleeping for 60 seconds...")
+			time.sleep(60)
+		except KeyboardInterrupt:
+			sys.exit()
+		except:
+			error_count += 1
+			logging.exception("")
+			if error_count < 5:
+				print("ERR: Error has been logged and the script will continue in 5 seconds...")
+			else:
+				print("ERR: Continuous error, program cannot recover...")
+				exit()
+			time.sleep(5)
 
