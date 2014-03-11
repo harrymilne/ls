@@ -54,6 +54,3 @@ class Webpage:
 		with open(path + filen, mode="w") as js_f:
 			js_f.write(rendered)
 		print("MSG: JS Written.")
-
-
-

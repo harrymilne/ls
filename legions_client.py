@@ -3,6 +3,7 @@ from web import Webpage
 from markupsafe import escape
 from ConfigParser import ConfigParser
 
+import os
 import errno
 import socket
 import binascii
@@ -207,7 +208,7 @@ class LegionsClient:
 
             players = []
             for player in raw_players:
-                players.append(str(escape(player[2:-2])))
+                players.append(unicode(escape(player[2:-2])))
 
             return {"mission":mission_name, "gamemode":mission_type, "players":players, "player_count":player_count, "max_players":max_players, "passworded":password}
 
