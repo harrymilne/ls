@@ -3,6 +3,7 @@ from web import Webpage
 from markupsafe import escape
 from ConfigParser import ConfigParser
 
+import os
 import errno
 import socket
 import binascii
