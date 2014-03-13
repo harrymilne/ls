@@ -112,7 +112,7 @@ class LegionsClient:
             if e.errno != errno.ECONNREFUSED:
                 print("ERR: Master server refused the connection, will retry...")
             else:
-                raise e
+                logging.exception("socket error at send_master()")
 
         except OSError:
             message = "ERR: Connection error..."
@@ -163,7 +163,7 @@ class LegionsClient:
             if e.errno != errno.ECONNREFUSED:
                 print("ERR: {0} refused the connection...".format(host))
             else:
-                raise e
+                logging.exception("socket error at send_master()")
         except OSError:
             print("ERR: Connection error...")
         req_sock.close()
