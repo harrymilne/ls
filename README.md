@@ -7,7 +7,7 @@ However, if you do want to run this yourself, here's how to do it.
 
 ##Requirements
 
-  * Python 3.3
+  * Python 2.7
   * Jinja2
   * Font Awesome for icon support
 
@@ -28,7 +28,6 @@ However, if you do want to run this yourself, here's how to do it.
 	[x] Legions URI implementation
 	[x] Player name box
 	[x] Cleaner rewrite with better packet decoding
-	[x] Graphs using Google Graphs?
 	[ ] Finish stats implementation (maybe sqldb)
 	[x] Better HTML implementation (Jinja)
 	[x] Better logger?
