@@ -241,7 +241,7 @@ class LegionsClient:
                 server_dict = self.parse_single(game_info_data)
                 server_dict["socket"] = server
                 self.server_info[server_name] = server_dict
-                print("MSG: {0} with {1} players sucessfully parsed.".format(server_name, len(server_dict["players"])))
+                print(u"MSG: {0} with {1} players sucessfully parsed.".format(server_name, len(server_dict["players"])))
 
 def get_cfg():
     if "-c" in sys.argv:
