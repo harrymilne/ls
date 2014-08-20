@@ -29,12 +29,14 @@ class Webpage:
 	def write_HTML(self, server_data):
 		servers_online = sorted([server for server in server_data if bool(len(server_data[server]["players"]))])
 		servers_empty = sorted([server for server in server_data if not bool(len(server_data[server]["players"]))])
+		total_players = sum([len(server_data[server]["players"]) for server in server_data])
 		updated = "{0} {1}".format(time.ctime(), time.strftime("%Z", time.gmtime()))
 
 		rendered = self.index.render(
 			server_data 	= server_data, 
 			servers_online	= servers_online,
 			servers_empty	= servers_empty,
+			total_players	= total_players,
 			date			= updated,
 			icon			= unichr(61475))
 
