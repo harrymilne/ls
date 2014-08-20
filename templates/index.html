@@ -2,7 +2,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<title>({{ total_players }}) Legions Servers</title>
+		<title>{% if total_players %}({{ total_players }}) {% endif %}Legions Servers</title>
 		<link rel="stylesheet" href="main.css">
 </head>
 <body onload="timedRefresh(60000);">
