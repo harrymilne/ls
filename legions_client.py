@@ -131,7 +131,6 @@ class LegionsClient:
                 offset += self.server_struct.size
 
         for server in server_data:
-            print(server)
             self.ip_list.append((".".join([str(i) for i in server[0]]),server[1]))
 
     def query_master(self):
