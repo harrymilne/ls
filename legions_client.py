@@ -1,7 +1,7 @@
 from struct import *
 from web import Webpage
 from markupsafe import escape
-from ConfigParser import ConfigParser
+from configparser import ConfigParser
 
 import os
 import errno
@@ -131,7 +131,8 @@ class LegionsClient:
                 offset += self.server_struct.size
 
         for server in server_data:
-            self.ip_list.append((".".join([str(ord(i)) for i in server[0]]),server[1]))
+            print(server)
+            self.ip_list.append((".".join([str(i) for i in server[0]]),server[1]))
 
     def query_master(self):
         packet = self.pack_master()

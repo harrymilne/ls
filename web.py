@@ -38,12 +38,12 @@ class Webpage:
 			servers_empty	= servers_empty,
 			total_players	= total_players,
 			date			= updated,
-			icon			= unichr(61475))
+			icon			= chr(61475))
 
 		path = self.cfg.get("core", "www_root")
 		filen = self.cfg.get("core", "www_filen")
 		with open(path + filen, mode="w") as index_f:
-			index_f.write(rendered.encode("utf-8"))
+			index_f.write(rendered)
 		print("MSG: HTML Written.")
 
 		self.write_JS(len(servers_online))
