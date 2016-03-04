@@ -208,7 +208,7 @@ class LegionsClient:
 
             players = []
             for player in raw_players:
-                players.append(unicode(escape(player[2:-2])))
+                players.append(str(escape(player[2:-2])))
 
             return {"mission":mission_name, "gamemode":mission_type, "players":players, "player_count":player_count, "max_players":max_players, "passworded":password}
 
