@@ -42,7 +42,7 @@ class Webpage:
 
 		path = self.cfg.get("core", "www_root")
 		filen = self.cfg.get("core", "www_filen")
-		with open(path + filen, mode="w") as index_f:
+		with open(path + filen, mode="w", encoding="utf-8") as index_f:
 			index_f.write(rendered)
 		print("MSG: HTML Written.")
 
@@ -53,6 +53,6 @@ class Webpage:
 		rendered = self.js.render(server_num = server_num)
 		path = self.cfg.get("core", "js_path")
 		filen = self.cfg.get("core", "js_file")
-		with open(path + filen, mode="w") as js_f:
+		with open(path + filen, mode="w", encoding="utf-8") as js_f:
 			js_f.write(rendered)
 		print("MSG: JS Written.")
