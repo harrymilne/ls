@@ -1,0 +1,11 @@
+version: '3'
+services:
+  ls:
+    build: .
+    expose:
+      - 8000
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/app/
+    command: start
